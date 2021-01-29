@@ -29,6 +29,9 @@
                 "/home/xuseto/.platformio/packages/framework-simba/3pp/spiffs-0.3.5/src",
                 "/home/xuseto/.platformio/packages/framework-simba/3pp/atto",
                 "/home/xuseto/.platformio/packages/framework-simba/3pp/atto/curses",
+                "/home/xuseto/git/ESP8266/WIFI_Client_GET/.pio/libdeps/esp12e/LWMQTT/include",
+                "/home/xuseto/git/ESP8266/WIFI_Client_GET/.pio/libdeps/esp12e/LWMQTT/src",
+                "/home/xuseto/git/ESP8266/WIFI_Client_GET/.pio/libdeps/esp12e/MqttTopicHelper",
                 ""
             ],
             "browse": {
@@ -55,6 +58,9 @@
                     "/home/xuseto/.platformio/packages/framework-simba/3pp/spiffs-0.3.5/src",
                     "/home/xuseto/.platformio/packages/framework-simba/3pp/atto",
                     "/home/xuseto/.platformio/packages/framework-simba/3pp/atto/curses",
+                    "/home/xuseto/git/ESP8266/WIFI_Client_GET/.pio/libdeps/esp12e/LWMQTT/include",
+                    "/home/xuseto/git/ESP8266/WIFI_Client_GET/.pio/libdeps/esp12e/LWMQTT/src",
+                    "/home/xuseto/git/ESP8266/WIFI_Client_GET/.pio/libdeps/esp12e/MqttTopicHelper",
                     ""
                 ]
             },
