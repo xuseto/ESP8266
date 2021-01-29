@@ -17,6 +17,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "simba.h"
+#include "config.h"
+#include "SO_uC.h"
+
+#include "heartbeat.h"
 
 /* Estructuras ---------------------------------------------------------------*/
 
@@ -31,7 +35,20 @@
  */
 int main()
 {
+    sys_start();
+
+    Ini_Tareas_Asincronas();
+    // Configurar-Inicializar las TAREAS SINCRONAS
+	Ini_Tareas_Sincronas(TIMER_0);
+	Ini_Tareas_Sincronas(TIMER_1);
+	Ini_Tareas_Sincronas(TIMER_2);
+
+    heartbeat_init();
+
     while (1) {
+        //heartbeat_loop ();
+
+        Run_tareas_ASINCRONAS();  // Gestionar las TAREAS ASINCRONAS
 
     }
 
