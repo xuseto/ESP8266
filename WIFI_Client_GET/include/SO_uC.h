@@ -18,8 +18,8 @@
 ////////////////////////////////////////////////////////////////////////////////// Enum de los eventos disponibles
 // Modificar al añadir un módulo nuevo
 typedef enum {
-    Tarea_Tarea1,
-    NUM_TAREAS_SINCRONAS,
+    Tarea_heartbeat      = 1,
+    NUM_TAREAS_ASINCRONAS,
 } ID_tareas_SO_e;
 
 ID_tareas_SO_e tipo_evento;
