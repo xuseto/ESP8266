@@ -37,11 +37,12 @@ int main()
 {
     sys_start();
     Ini_Tareas();
-    
+
     heartbeat_init ();
 
     while (1) 
     {
+        Run_Tareas ();
     }
     
     return (0);

@@ -9,6 +9,12 @@
 #include "SO_uC.h"
 #include "simba.h"
 
+// Definir el Numero MAXIMO de TAREAS en cada COLA estatica...
+#define NUM_TAREAS_ASINCRONAS 7
+ID_tareas_SO_e ID_tareas_sincronas;
+
+static struct event_t event_SO;
+
 ///////////////////////////////////////////////////////////////
 // Declaracion de Funciones Prototitpo
 // Iniciar la cola de tareas SINCRONAS.
@@ -68,20 +74,29 @@ void Ini_Tareas_Asincronas(void) {
 	int i;
 	tareas_Asincronas.numero = 0;
 
-	for (i = 0; i < NUM_TAREAS_ASINCRONAS; i++) tareas_Asincronas.Cola_T[i] = NULO;
+	for (i = 0; i < NUM_TAREAS_ASINCRONAS; i++) 
+	    tareas_Asincronas.Cola_T[i] = NULO;
 }
+
 ///////////////////////////////////////////////////////////////////////////////////
 // A�adir Tareas nuevas a la Cola de tareas ASINCRONAS.
-int Add_Tarea_Asincrona (tarea_t_Asin  task) {
-	int ptero = tareas_Asincronas.numero ;
+int Add_Tarea_Asincrona (tarea_t_Asin  task, ID_tareas_SO_e tarea) {
+	//int ptero = tareas_Asincronas.numero ;
 
-	if ((ptero + 1) >= NUM_TAREAS_ASINCRONAS) {
-			return -1;
-	} else {
-		tareas_Asincronas.Cola_T[ptero] = task;
-		tareas_Asincronas.numero++;
-		return ptero;
-		}
+	// if ((ptero + 1) >= NUM_TAREAS_ASINCRONAS) {
+	// 		return -1;
+	// } else {
+	// 	tareas_Asincronas.Cola_T[ptero] = task;
+	// 	tareas_Asincronas.numero++;
+	// 	return ptero;
+	// 	}
+
+	if (NUM_TAREAS_ASINCRONAS <= tarea)
+	    return -1;
+
+    tareas_Asincronas.Cola_T[tarea] = task;
+	return 1;
+	
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // Gestor de Tareas ASINCRONAS cuyo proceso es ir ejecutando
@@ -248,15 +263,47 @@ void Run_tareas_SINCRONAS_T2 (void) {
 void Ini_Tareas()
 {
 	Ini_Tareas_Sincronas(TIMER_0);
-	Ini_Tareas_Sincronas(TIMER_1);
-	Ini_Tareas_Sincronas(TIMER_2);
+	// Ini_Tareas_Sincronas(TIMER_1);
+	// Ini_Tareas_Sincronas(TIMER_2);
+
+	Ini_Tareas_Asincronas ();
+
+}// FIN de Ini_Tareas
+
+void Run_Tareas()
+{
+	
 
     /* Initialize and start a periodic timer. */
     timeout.seconds = 1;
     timeout.nanoseconds = 0;
     timer_init(&timer, &timeout, Run_tareas_SINCRONAS_T0, NULL, TIMER_PERIODIC);
     timer_start(&timer);
+
+    for (;;)
+	{
+	//    std_printf (FSTR("read_event\r\n"));
+    //    event_read (&event_SO, &tipo_evento, sizeof(tipo_evento));
+	//    switch (tipo_evento)
+	//    {
+	//    case Tarea_Tarea1:
+	// 	   std_printf (FSTR("TAREA 1\r\n"));
+	// 	   break;
+	   
+	//    default:
+	//       std_printf (FSTR("Error\r\n"));
+	// 	   break;
+	//    }
+	}
+    
+
+}// FIN de Run_Tareas
+
+void Add_Evento (ID_tareas_SO_e ID_tarea)
+{
+    event_write_isr (&event_SO, &ID_tarea, sizeof(ID_tarea));
 }
+
 
 ////////////////////////////////////////////
 //   Fin CODIGO del FICHERO....

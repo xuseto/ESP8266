@@ -27,20 +27,23 @@
 /* Estructuras ---------------------------------------------------------------*/
 struct pin_driver_t led;
 
+
 /* Variables -----------------------------------------------------------------*/
 
 
 /* Funciones Privadas --------------------------------------------------------*/
-void heartbeat_loop   (void);
+//void heartbeat_loop  (void) ;
 
 /* Funciones Públicas --------------------------------------------------------*/
 /**
  * @brief bucle infinito del heartbeat.
  */
-void heartbeat_loop  (void)
+static void heartbeat_loop  (void)
 {
     pin_toggle (&led);
+    //Add_Evento (Tarea_Tarea1);
 }
+
 
 /**
  * @brief inicialización del LED de vida.
@@ -54,6 +57,8 @@ void heartbeat_init ()
     Add_Tarea_Sincrona (heartbeat_loop, TIMER_0);
 
 }
+
+
 
 
 
