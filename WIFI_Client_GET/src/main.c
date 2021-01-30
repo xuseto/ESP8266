@@ -51,7 +51,6 @@ int main()
     
     while (1) {
 
-//add desde branch test_SO
     }
     
     return (0);
