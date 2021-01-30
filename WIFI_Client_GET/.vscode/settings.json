@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "header.h": "c",
+        "heartbeat.h": "c",
+        "so_uc.h": "c"
+    }
+}

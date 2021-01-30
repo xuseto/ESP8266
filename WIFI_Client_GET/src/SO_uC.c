@@ -7,6 +7,34 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // ***********************************
 #include "SO_uC.h"
+#include "simba.h"
+
+// Definir el Numero MAXIMO de TAREAS en cada COLA estatica...
+#define NUM_TAREAS_ASINCRONAS 7
+
+///////////////////////////////////////////////////////////////
+// Declaracion de Funciones Prototitpo
+// Iniciar la cola de tareas SINCRONAS.
+void Ini_Tareas_Sincronas(int);
+
+// Gestor de Tareas SINCRONAS cuyo proceso es ir ejecutando las diferentes tareas de manera secuencial.
+//void Run_tareas_SINCRONAS_T0 (void *arg_p);
+void Run_tareas_SINCRONAS_T1 (void);
+void Run_tareas_SINCRONAS_T2 (void);
+
+////////////////////////////////////////////////
+// Iniciar la cola de tareas ASINCRONAS.
+void Ini_Tareas_Asincronas(void );
+// Gestor de Tareas ASINCRONAS cuyo proceso es ir ejecutando las diferentes tareas de manera secuencial.
+void Run_tareas_ASINCRONAS (void);
+
+
+
+ID_tareas_SO_e ID_tareas_sincronas;
+
+static struct event_t event_SO;
+struct        time_t timeout;
+static struct timer_t timer;
 
 /////////////////////////////////////////////////////////////////////////////
 /* Definir la estructura de las colas de tareas SINCRONAS. */
@@ -46,20 +74,29 @@ void Ini_Tareas_Asincronas(void) {
 	int i;
 	tareas_Asincronas.numero = 0;
 
-	for (i = 0; i < NUM_TAREAS_ASINCRONAS; i++) tareas_Asincronas.Cola_T[i] = NULO;
+	for (i = 0; i < NUM_TAREAS_ASINCRONAS; i++) 
+	    tareas_Asincronas.Cola_T[i] = NULO;
 }
-///////////////////////////////////////////////////////////////////////////////////
-// Añadir Tareas nuevas a la Cola de tareas ASINCRONAS.
-int Add_Tarea_Asincrona (tarea_t_Asin  task) {
-	int ptero = tareas_Asincronas.numero ;
 
-	if ((ptero + 1) >= NUM_TAREAS_ASINCRONAS) {
-			return -1;
-	} else {
-		tareas_Asincronas.Cola_T[ptero] = task;
-		tareas_Asincronas.numero++;
-		return ptero;
-		}
+///////////////////////////////////////////////////////////////////////////////////
+// Aï¿½adir Tareas nuevas a la Cola de tareas ASINCRONAS.
+int Add_Tarea_Asincrona (tarea_t_Asin  task, ID_tareas_SO_e tarea) {
+	//int ptero = tareas_Asincronas.numero ;
+
+	// if ((ptero + 1) >= NUM_TAREAS_ASINCRONAS) {
+	// 		return -1;
+	// } else {
+	// 	tareas_Asincronas.Cola_T[ptero] = task;
+	// 	tareas_Asincronas.numero++;
+	// 	return ptero;
+	// 	}
+
+	if (NUM_TAREAS_ASINCRONAS <= tarea)
+	    return -1;
+
+    tareas_Asincronas.Cola_T[tarea] = task;
+	return 1;
+	
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // Gestor de Tareas ASINCRONAS cuyo proceso es ir ejecutando
@@ -111,7 +148,7 @@ void Ini_Tareas_Sincronas(int N_TIMER) {
 
 }
 ///////////////////////////////////////////////////////////////////////////////////
-// Añadir Tareas nuevas a la Cola de tareas SINCRONAS.
+// Aï¿½adir Tareas nuevas a la Cola de tareas SINCRONAS.
 int Add_Tarea_Sincrona (tarea_t_SINC  task, int N_TIMER) {
 		int ptero0 = tareas_Sincronas.num_T0 ;
 		int ptero1 = tareas_Sincronas.num_T1 ;
@@ -142,9 +179,10 @@ int Add_Tarea_Sincrona (tarea_t_SINC  task, int N_TIMER) {
 ///////////////////////////////////////////////////////////////////////////////////
 // Gestor de Tareas SINCRONAS cuyo proceso es ir ejecutando
 // las diferentes tareas de manera secuencial.
-void Run_tareas_SINCRONAS_T0 (void) {
+static void Run_tareas_SINCRONAS_T0 (void *arg_p) {
 	//int i;
 	tarea_t_SINC  tpS;
+
 	//////////////////////////////////////////////////
 	/*for (;;){
 		for (i = 0; i < tareas_Sincronas.number; i++){
@@ -222,23 +260,52 @@ void Run_tareas_SINCRONAS_T2 (void) {
 
 } // FIN de Run_tareas_SINCRONAS-T1...
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-// Declaracion de Variables
-void (*Timer0_Tarea_Ptr)(void);		// Ptero a Funcion de Tareas-Timer0...
-void (*Timer1_Tarea_Ptr)(void);		// Ptero a Funcion de Tareas-Timer1...
-void (*Timer2_Tarea_Ptr)(void);		// Ptero a Funcion de Tareas-Timer2...
-// Declaracion de Funciones de TAREAS SINCRONAS de cada TIMERxx....
-void Tareas_Sincronas_T0(void);	// Tareas a realizar por EVENTO T0 cada xxmseg
-void Tareas_Sincronas_T1(void);	// Tareas a realizar por EVENTO T1 cada xxmseg
-void Tareas_Sincronas_T3(void);	// Tareas a realizar por EVENTO T2 cada xxmseg
-// Inicializar ptero de Funciones de Tareas SINCRONAS
-Timer0_Tarea_Ptr = &Tareas_Sincronas_T0;
-Timer1_Tarea_Ptr = &Tareas_Sincronas_T1;
-Timer2_Tarea_Ptr = &Tareas_Sincronas_T2;
+void Ini_Tareas()
+{
+	Ini_Tareas_Sincronas(TIMER_0);
+	// Ini_Tareas_Sincronas(TIMER_1);
+	// Ini_Tareas_Sincronas(TIMER_2);
 
-(*A_Tarea_Ptr)();		// jump to an A Task (A1,A2,A3,...)
-**/
+	Ini_Tareas_Asincronas ();
+
+	event_init(&event_SO);
+
+}// FIN de Ini_Tareas
+
+void Run_Tareas()
+{
+	
+
+    /* Initialize and start a periodic timer. */
+    timeout.seconds = 1;
+    timeout.nanoseconds = 0;
+    timer_init(&timer, &timeout, Run_tareas_SINCRONAS_T0, NULL, TIMER_PERIODIC);
+    timer_start_isr(&timer);
+
+    for (;;)
+	{
+	//    std_printf (FSTR("read_event\r\n"));
+    //    event_read (&event_SO, &tipo_evento, sizeof(tipo_evento));
+	//    switch (tipo_evento)
+	//    {
+	//    case Tarea_Tarea1:
+	// 	   std_printf (FSTR("TAREA 1\r\n"));
+	// 	   break;
+	   
+	//    default:
+	//       std_printf (FSTR("Error\r\n"));
+	// 	   break;
+	//    }
+	}
+    
+
+}// FIN de Run_Tareas
+
+void Add_Evento (ID_tareas_SO_e ID_tarea)
+{
+    event_write (&event_SO, &ID_tarea, sizeof(ID_tarea));
+}
+
 
 ////////////////////////////////////////////
 //   Fin CODIGO del FICHERO....
