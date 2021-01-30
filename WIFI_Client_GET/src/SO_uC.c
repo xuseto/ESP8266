@@ -11,9 +11,6 @@
 
 // Definir el Numero MAXIMO de TAREAS en cada COLA estatica...
 #define NUM_TAREAS_ASINCRONAS 7
-ID_tareas_SO_e ID_tareas_sincronas;
-
-static struct event_t event_SO;
 
 ///////////////////////////////////////////////////////////////
 // Declaracion de Funciones Prototitpo
@@ -33,6 +30,9 @@ void Run_tareas_ASINCRONAS (void);
 
 
 
+ID_tareas_SO_e ID_tareas_sincronas;
+
+static struct event_t event_SO;
 struct        time_t timeout;
 static struct timer_t timer;
 
@@ -268,6 +268,8 @@ void Ini_Tareas()
 
 	Ini_Tareas_Asincronas ();
 
+	event_init(&event_SO);
+
 }// FIN de Ini_Tareas
 
 void Run_Tareas()
@@ -278,7 +280,7 @@ void Run_Tareas()
     timeout.seconds = 1;
     timeout.nanoseconds = 0;
     timer_init(&timer, &timeout, Run_tareas_SINCRONAS_T0, NULL, TIMER_PERIODIC);
-    timer_start(&timer);
+    timer_start_isr(&timer);
 
     for (;;)
 	{
@@ -301,7 +303,7 @@ void Run_Tareas()
 
 void Add_Evento (ID_tareas_SO_e ID_tarea)
 {
-    event_write_isr (&event_SO, &ID_tarea, sizeof(ID_tarea));
+    event_write (&event_SO, &ID_tarea, sizeof(ID_tarea));
 }
 
 

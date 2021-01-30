@@ -23,6 +23,7 @@
 #include "heartbeat.h"
 
 /* Estructuras ---------------------------------------------------------------*/
+static struct timer_t timer;
 
 /* Variables -----------------------------------------------------------------*/
 
@@ -35,14 +36,21 @@
  */
 int main()
 {
+ 
+    struct time_t timeout;
+
     sys_start();
-    Ini_Tareas();
 
     heartbeat_init ();
 
-    while (1) 
-    {
-        Run_Tareas ();
+    /* Initialize and start a periodic timer. */
+    timeout.seconds = 1;
+    timeout.nanoseconds = 0;
+    timer_init(&timer, &timeout, heartbeat_loop, NULL, TIMER_PERIODIC);
+    timer_start(&timer);
+    
+    while (1) {
+
     }
     
     return (0);

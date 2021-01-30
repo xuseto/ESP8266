@@ -38,10 +38,9 @@ struct pin_driver_t led;
 /**
  * @brief bucle infinito del heartbeat.
  */
-static void heartbeat_loop  (void)
+void heartbeat_loop  (void *arg_p)
 {
     pin_toggle (&led);
-    //Add_Evento (Tarea_Tarea1);
 }
 
 
@@ -53,9 +52,6 @@ void heartbeat_init ()
 
     pin_init(&led, &pin_led_dev, PIN_OUTPUT);
     pin_write(&led, 1);
-
-    Add_Tarea_Sincrona (heartbeat_loop, TIMER_0);
-
 }
 
 

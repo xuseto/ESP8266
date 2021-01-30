@@ -27,7 +27,7 @@
 
 /* SFM functions -------------------------------------------------------------*/
 void heartbeat_init   (void);
-// void heartbeat_loop   (void);
+void heartbeat_loop   (void *arg_p);
 
 #endif
 
