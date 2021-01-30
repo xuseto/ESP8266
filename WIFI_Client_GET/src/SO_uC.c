@@ -10,7 +10,7 @@
 #include "simba.h"
 
 // Definir el Numero MAXIMO de TAREAS en cada COLA estatica...
-#define NUM_TAREAS_ASINCRONAS 7
+#define NUM_TAREAS_SINCRONAS 7
 
 ///////////////////////////////////////////////////////////////
 // Declaracion de Funciones Prototitpo
@@ -201,6 +201,7 @@ static void Run_tareas_SINCRONAS_T0 (void *arg_p) {
 			// Hemos llegado al Final de la COLA ==> Empezar de nuevo...
 			if (N_Tarea_SIN_T0_exe > tareas_Sincronas.num_T0) N_Tarea_SIN_T0_exe=0;
 	} else N_Tarea_SIN_T0_exe=0;
+
 		/////////////////////////////////////////////////////////////////////////////////////////////
 
 } // FIN de Run_tareas_SINCRONAS-T0...
@@ -263,24 +264,20 @@ void Run_tareas_SINCRONAS_T2 (void) {
 void Ini_Tareas()
 {
 	Ini_Tareas_Sincronas(TIMER_0);
-	// Ini_Tareas_Sincronas(TIMER_1);
-	// Ini_Tareas_Sincronas(TIMER_2);
+	Ini_Tareas_Sincronas(TIMER_1);
+	Ini_Tareas_Sincronas(TIMER_2);
 
 	Ini_Tareas_Asincronas ();
-
-	event_init(&event_SO);
 
 }// FIN de Ini_Tareas
 
 void Run_Tareas()
 {
-	
-
     /* Initialize and start a periodic timer. */
     timeout.seconds = 1;
     timeout.nanoseconds = 0;
     timer_init(&timer, &timeout, Run_tareas_SINCRONAS_T0, NULL, TIMER_PERIODIC);
-    timer_start_isr(&timer);
+    timer_start(&timer);
 
     for (;;)
 	{
