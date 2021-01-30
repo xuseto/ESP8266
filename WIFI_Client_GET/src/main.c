@@ -36,22 +36,14 @@
 int main()
 {
     sys_start();
+    Ini_Tareas();
+    
+    heartbeat_init ();
 
-    Ini_Tareas_Asincronas();
-    // Configurar-Inicializar las TAREAS SINCRONAS
-	Ini_Tareas_Sincronas(TIMER_0);
-	Ini_Tareas_Sincronas(TIMER_1);
-	Ini_Tareas_Sincronas(TIMER_2);
-
-    heartbeat_init();
-
-    while (1) {
-        //heartbeat_loop ();
-
-        Run_tareas_ASINCRONAS();  // Gestionar las TAREAS ASINCRONAS
-
+    while (1) 
+    {
     }
-
+    
     return (0);
 }
 
