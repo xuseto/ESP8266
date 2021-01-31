@@ -1,21 +1,21 @@
 /*******************************************************************************
  * @file heartbeat.h
- * @author jnieto
- * @version 0.0.0.0.0
- * @date Creation: 18/01/2021
- * @date Last modification 18/01/2021 by jnieto
+ * @author Jesus Nieto 
+ * @version 0.1.0
+ * @date Creation: 01/02/2021
+ * @date Last modification 01/02/2021 by Jesus Nieto 
  * @brief
  * @par
- *  COPYRIGHT NOTICE: (c) 2019 Power Electronics.
+ *  COPYRIGHT NOTICE: (c) 2021 Jesus Nieto.
  *  All rights reserved
  *******************************************************************************
 
     @addtogroup HEARTBEAT
     @{
-    @defgroup HEARTBEAT LED de vida
+    @defgroup HEARTBEAT 
     @{
     @brief
-    @details
+    @details LED de vida, cada segundo, se hace un toggle.
 
 */
 
@@ -27,7 +27,6 @@
 
 /* SFM functions -------------------------------------------------------------*/
 void heartbeat_init   (void);
-//void heartbeat_loop   (void);
 
 #endif
 
@@ -35,4 +34,4 @@ void heartbeat_init   (void);
  *  @}
  */
 
-/******************** (C) COPYRIGHT xuseto*****END OF FILE ********************/
+/****************** (C) COPYRIGHT Jesus Nieto****END OF FILE ******************/

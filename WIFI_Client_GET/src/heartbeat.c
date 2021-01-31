@@ -1,12 +1,12 @@
 /*******************************************************************************
  * @file heartbeat.c
- * @author xuseto
- * @version 0.0.0.0.1
- * @date Creation: 29/01/2021
- * @date Last modification 29/01/2021 
+ * @author Jesus Nieto
+ * @version 0.1.0
+ * @date Creation: 01/02/2021
+ * @date Last modification 01/02/2021 by Jesus Nieto 
  * @brief
  * @par
- *  COPYRIGHT NOTICE: (c) 2021 Xuseto.
+ *  COPYRIGHT NOTICE: (c) 2021 Jesus Nieto.
  *  All rights reserved
  *******************************************************************************
  *
@@ -20,51 +20,44 @@
 #include "config.h"
 #include "stdint.h"
 #include "SO_uC.h"
+#include <stdio.h>
 
 
 #include "heartbeat.h"
+#include "log.h"
 
 /* Estructuras ---------------------------------------------------------------*/
 struct pin_driver_t led;
 
-
 /* Variables -----------------------------------------------------------------*/
 
+/* Decalraciones funciones privadas ------------------------------------------*/
 
-/* Funciones Privadas --------------------------------------------------------*/
-//void heartbeat_loop  (void) ;
-
-/* Funciones Públicas --------------------------------------------------------*/
+/* Funciones privadas --------------------------------------------------------*/
 /**
- * @brief bucle infinito del heartbeat.
+ * @brief Funcion sincrona, llamada por el SO cada sg.
  */
 static void heartbeat_loop  (void)
 {
     pin_toggle (&led);
 }
 
-
+/* Funciones Públicas --------------------------------------------------------*/
 /**
  * @brief inicialización del LED de vida.
  */
 void heartbeat_init ()
 {
-uint16_t ptr;
     pin_init(&led, &pin_led_dev, PIN_OUTPUT);
     pin_write(&led, 1);
 
-    std_printf ("ADD tarea :");
-    ptr = Add_Tarea_Sincrona (heartbeat_loop, TIMER_0);
+    Add_Tarea_Sincrona (heartbeat_loop, SO_TIMER_0);
 
-    std_printf ("%d\r\n",ptr);
 }
-
-
-
 
 
 /**
  *  @}
  */
 
-/******************** (C) COPYRIGHT xuseto*****END OF FILE ********************/
+/****************(C) COPYRIGHT Jesus Nieto*****END OF FILE ********************/

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * @file main.c
- * @author xuseto
- * @version 0.0.0.0.1
- * @date Creation: 29/01/2021
- * @date Last modification 29/01/2021 
+ * @author Jesus Nieto
+ * @version 0.1.0
+ * @date Creation: 01/02/2021
+ * @date Last modification 01/02/2021 by Jesus Nieto 
  * @brief
  * @par
- *  COPYRIGHT NOTICE: (c) 2021 Xuseto.
+ *  COPYRIGHT NOTICE: (c) 2021 Jesus Nieto.
  *  All rights reserved
  *******************************************************************************
  *
@@ -21,16 +21,20 @@
 #include "SO_uC.h"
 
 #include "heartbeat.h"
+#include "log.h"
+#include "tareas.h"
 
 /* Estructuras ---------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
 
-/* Funciones Privadas --------------------------------------------------------*/
+/* Decalraciones funciones privadas ------------------------------------------*/
 
-/* Funciones Públicas --------------------------------------------------------*/
+/* Funciones privadas --------------------------------------------------------*/
+
+/* Funciones públicas --------------------------------------------------------*/
 /**
- * @brief Main. inicio del código
+ * @brief  Main. inicio del código
  * @return int
  */
 int main()
@@ -40,19 +44,19 @@ int main()
     Ini_Tareas ();
 
     heartbeat_init ();
+    log_init ();
+    tareas_init();
     
-    while (1) {
+    while (1) 
+    {
         Run_Tareas ();
-
     }
     
     return (0);
 }
 
-
-
 /**
  *  @}
  */
 
-/******************** (C) COPYRIGHT xuseto*****END OF FILE ********************/
+/****************(C) COPYRIGHT Jesus Nieto*****END OF FILE ********************/
