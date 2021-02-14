@@ -22,7 +22,6 @@
 
 #include "heartbeat.h"
 #include "log.h"
-#include "tareas.h"
 
 /* Estructuras ---------------------------------------------------------------*/
 
@@ -45,7 +44,6 @@ int main()
 
     heartbeat_init ();
     log_init ();
-    task_init();
     
     while (1) 
     {
