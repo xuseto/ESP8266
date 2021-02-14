@@ -1,5 +1,5 @@
 /*******************************************************************************
- * @file sw_520a.h
+ * @file sw_520d.h
  * @author Jesus Nieto 
  * @version 0.1.0
  * @date Creation: 14/02/2021
@@ -10,25 +10,25 @@
  *  All rights reserved
  *******************************************************************************
 
-    @addtogroup SW_520A
+    @addtogroup SW_520D
     @{
-    @defgroup SW_520A 
+    @defgroup SW_520D 
     @{
     @brief
     @details Sensor inclinometro, modelo SW 520A
 
 */
 
-#ifndef SW_520A_H
-#define SW_520A_H
+#ifndef _SW_520D_H
+#define _SW_520D_H
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdint.h>
 
 /* SFM functions -------------------------------------------------------------*/
-void     sw_520a_init       (void);
-void     sw_520a_config     (struct pin_device_t *gpio);
-uint16_t sw_520a_get_status (void);
+void     sw_520d_init       (void);
+void     sw_520d_config     (struct pin_device_t *gpio);
+uint16_t sw_520d_get_status (void);
 
 #endif
 

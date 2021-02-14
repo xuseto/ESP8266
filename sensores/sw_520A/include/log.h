@@ -11,7 +11,7 @@
 typedef enum
 {
     ID_log_heartbeat,
-    ID_SW_520A,
+    ID_SW_520D,
 
     ID_log_Max
 } ID_log_e;

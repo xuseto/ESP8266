@@ -22,7 +22,7 @@
 
 #include "heartbeat.h"
 #include "log.h"
-#include "sw_520a.h"
+#include "sw_520d.h"
 
 /* Estructuras ---------------------------------------------------------------*/
 
@@ -45,8 +45,8 @@ int main()
 
     heartbeat_init ();
     log_init ();
-    sw_520a_init();
-    sw_520a_config (&GPIO_D2);
+    sw_520d_init();
+    sw_520d_config (&GPIO_D2);
 
     
     
