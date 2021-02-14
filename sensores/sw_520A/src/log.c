@@ -44,12 +44,8 @@ static void log_print (Datos_SO_t *log_data)
         std_printf(FSTR("[HEARTBEAT  ]"));
         break;
 
-    case ID_log_Tarea1:
-        std_printf(FSTR("[Tarea 1    ]"));
-        break;
-
-    case ID_log_Tarea2:
-        std_printf(FSTR("[Tarea 2    ]"));
+    case ID_SW_520A:
+        std_printf(FSTR("[SW_520A    ]"));
         break;
     
     default:

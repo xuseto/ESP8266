@@ -57,7 +57,10 @@
 #define CONFIG_ESP_WIFI             1
 #define CONFIG_PIN                  1
 #define CONFIG_START_CONSOLE        1
+// Incompatible CONFIG_MODULE_INIT_TIMER y CONFIG_EXTI
 #define CONFIG_MODULE_INIT_TIMER    1
+#define CONFIG_EXTI                 0
+ 
 #define CONFIG_FS_CMD_PIN_WRITE     0
 #define CONFIG_FS_CMD_PIN_READ      0
 #define CONFIG_RANDOM               0

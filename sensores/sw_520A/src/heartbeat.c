@@ -52,7 +52,6 @@ void heartbeat_init ()
     pin_write(&led, 1);
 
     Add_Tarea_Sincrona (heartbeat_loop, SO_TIMER_0);
-
 }
 
 
