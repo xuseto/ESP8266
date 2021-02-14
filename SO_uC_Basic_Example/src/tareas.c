@@ -10,7 +10,7 @@
  *  All rights reserved
  *******************************************************************************
  *
- *  @addtogroup TAREAS
+ *  @addtogroup TASK
  *  @{
  *
  */
@@ -54,7 +54,7 @@ static void add_new_event ()
 /**
  * @brief  Tarea de test sincrona llamada por el SO cada 100 ms
  */
-static void Tarea1 (void)
+static void task1 (void)
 {
     add_new_event ();
 }
@@ -63,7 +63,7 @@ static void Tarea1 (void)
 /**
  * @brief  Tarea de test sincrona llamada por el SO cada 500 ms
  */
-static void Tarea2 (void)
+static void task2 (void)
 {
     char temp[] = "TAREA 2";
     
@@ -78,10 +78,10 @@ static void Tarea2 (void)
 /**
  * @brief  Inicialización de las taeras de test.
  */
-void tareas_init ()
+void task_init ()
 {
-     Add_Tarea_Sincrona (Tarea2, SO_TIMER_1);
-     Add_Tarea_Sincrona (Tarea1, SO_TIMER_2);
+     Add_Tarea_Sincrona (task2, SO_TIMER_1);
+     Add_Tarea_Sincrona (task1, SO_TIMER_2);
 }
 
 /**

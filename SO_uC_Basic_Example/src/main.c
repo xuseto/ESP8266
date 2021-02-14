@@ -45,7 +45,7 @@ int main()
 
     heartbeat_init ();
     log_init ();
-    tareas_init();
+    task_init();
     
     while (1) 
     {
