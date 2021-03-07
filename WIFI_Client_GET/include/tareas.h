@@ -10,21 +10,21 @@
  *  All rights reserved
  *******************************************************************************
 
-    @addtogroup TAREAS
+    @addtogroup TASK
     @{
-    @defgroup TAREAS 
+    @defgroup TASK 
     @{
     @brief
-    @details Test de pruebas para comprobar que funcionan las tareas sincronas cada 100 ms y cada 500 ms.
+    @details Test de pruebas para comprobar que funcionan las task sincronas cada 100 ms y cada 500 ms.
 
 */
-#ifndef __TAREAS_H__
-#define __TAREAS_H__
+#ifndef __TASK_H__
+#define __TASK_H__
 
 /* Includes ------------------------------------------------------------------*/
 
 /* SFM functions -------------------------------------------------------------*/
-void tareas_init (void);
+void task_init (void);
 
 #endif
 

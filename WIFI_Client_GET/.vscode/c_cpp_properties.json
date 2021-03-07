@@ -83,7 +83,7 @@
             ],
             "cStandard": "c99",
             "cppStandard": "c++11",
-            "compilerPath": "/home/xuseto/.platformio/packages/toolchain-xtensa@1.40802.0/bin/xtensa-lx106-elf-gcc",
+            "compilerPath": "/home/xuseto/.platformio/packages/toolchain-xtensa/bin/xtensa-lx106-elf-gcc",
             "compilerArgs": [
                 "-mlongcalls",
                 "-mtext-section-literals",
