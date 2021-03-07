@@ -39,6 +39,7 @@
                 "path": [
                     "/home/xuseto/git/ESP8266/WIFI_Client_GET/include",
                     "/home/xuseto/git/ESP8266/WIFI_Client_GET/src",
+                    "/home/xuseto/git/ESP8266/WIFI_Client_GET/src/wifi",
                     "/home/xuseto/.platformio/packages/framework-simba/build/esp12e/gen",
                     "/home/xuseto/.platformio/packages/framework-simba/src",
                     "/home/xuseto/.platformio/packages/framework-simba/src/boards/esp12e",
