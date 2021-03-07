@@ -32,8 +32,8 @@
 #define GATEWAY_IP     192.168.1.1
 #define MASCARA_IP     255.255.255.0
 
-#define REDWIFI        "MIWIFI_2G_eS9k"
-#define PSSWWIFI       "UeS9kC9N"
+#define REDWIFI        "YOUR_WIFI"
+#define PSSWWIFI       "YOUR_PASSWORD"
 
 /* Estructuras ----------------------------------------------------------------*/
 /**
