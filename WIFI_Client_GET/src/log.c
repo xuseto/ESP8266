@@ -43,13 +43,8 @@ static void log_print (Datos_SO_t *log_data)
     case ID_log_heartbeat:
         std_printf(FSTR("[HEARTBEAT  ]"));
         break;
-
-    case ID_log_Tarea1:
-        std_printf(FSTR("[Tarea 1    ]"));
-        break;
-
-    case ID_log_Tarea2:
-        std_printf(FSTR("[Tarea 2    ]"));
+    case ID_log_wifi:
+        std_printf(FSTR("[WIFI       ]"));
         break;
     
     default:
