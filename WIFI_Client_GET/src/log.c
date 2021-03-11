@@ -63,7 +63,7 @@ static void log_print (Datos_SO_t *log_data)
  */
 void log_init ()
 {
-    Add_Tarea_Asincrona (log_print, (ID_tareas_SO_e)Tarea_Log);
+    Add_Tarea_Asincrona (log_print, (ID_tareas_SO_e)TASK_LOG);
 }
 
 /**

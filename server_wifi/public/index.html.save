@@ -1,0 +1,59 @@
+/<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Parametros de los IGBTs</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+</head>
+<body>
+	<div class="container"  align="center">
+	<form>
+	<br> </br>
+	<input type="radio" name="rate" id="enable" value="1">
+	<label for="enable"> ACTIVAR\ENVIAR </label>
+        <br></br>
+	<input type="radio" name="rate" id="disable" value="0">
+	<label for="disable"> DESACTIVAR </label>	
+	<br> </br>
+	<label> Desfase (0º a 360º): </label>
+	<input type="text" id="desfase" value="90"/>	
+	<br />
+	<label>  Frecuencia (KHz): </label>
+	<input type="text" id="frecuencia" value="20" />
+	<br />	
+	<label> Tiempo muerto (us): </label>
+	<input type="text" id="tiempomuerto" value="1" />
+	<br />
+	<label> PI Tensión Kp : <
+        <H1  id="out"> Esperando </H1>
+	</form>
+	</div>
+
+    <div class="container">
+        <br>
+        <h2>V e I de salida</h2>
+        <canvas id="myChartPW"></canvas>
+    </div>
+	
+    <div class="container">
+        <br>
+        <h2>Temperaturas de los IGBTs</h2>
+        <canvas id="myChart"></canvas>
+    </div>
+<!--    <script src="main.js"></script> -->
+     
+<!--    <script src="main.js"></script> -->
+<!--    <script src="/socket.io/socket.io.js"></script> -->
+
+</body>
+	<script src="main.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+</html>

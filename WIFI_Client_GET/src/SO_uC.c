@@ -52,7 +52,7 @@ struct {
 struct {
 	int numero;
 
-	tarea_t_Asin Cola_T [NUM_TAREAS_ASINCRONAS];
+	tarea_t_Asin Cola_T [NUM_TASK_ASINCRONAS];
 } tareas_Asincronas;
 
 
@@ -84,7 +84,7 @@ void Ini_Tareas_Asincronas(void)
 	int i;
 	tareas_Asincronas.numero = 0;
 
-	for (i = 0; i < NUM_TAREAS_ASINCRONAS; i++) 
+	for (i = 0; i < NUM_TASK_ASINCRONAS; i++) 
 	    tareas_Asincronas.Cola_T[i] = NULO;
 }
 
@@ -215,7 +215,7 @@ static void Run_tareas_SINCRONAS_T2 (void *arg_p)
 */
 int Add_Tarea_Asincrona (tarea_t_Asin  task, ID_tareas_SO_e tarea) 
 {
-	if (NUM_TAREAS_ASINCRONAS <= tarea)
+	if (NUM_TASK_ASINCRONAS <= tarea)
 	    return -1;
 
     tareas_Asincronas.Cola_T[tarea] = task;
@@ -319,13 +319,13 @@ void Run_Tareas()
 	{
        event_read (&event_SO, &mask_event, sizeof(mask_event));
   
-       do {
+       //do {
 	       tp = tareas_Asincronas.Cola_T [(Datos_eventos_SO[ptr_eventos_leidos].tipo_evento)];
 	       // Llamar a la COLA de TAREAS a Ejecutar...
 	       tp(&Datos_eventos_SO[ptr_eventos_leidos].Datos_SO); 
 
 	       ptr_eventos_leidos = ((NUM_EVENTOS-1) <= ptr_eventos_leidos) ? 0x00 : ptr_eventos_leidos + 1;
-		} while (ptr_eventos_leidos != ptr_eventos_recibidos);
+		//} while (ptr_eventos_leidos != ptr_eventos_recibidos);
 	}
 }// FIN de Run_Tareas
 

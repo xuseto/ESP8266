@@ -53,7 +53,7 @@
 
 
 #define CONFIG_START_NETWORK        1
-#define CONFIG_MINIMAL_SYSTEM       1
+#define CONFIG_MINIMAL_SYSTEM       0
 #define CONFIG_ESP_WIFI             1
 #define CONFIG_PIN                  1
 #define CONFIG_START_CONSOLE        1
