@@ -24,7 +24,8 @@
 
 
 #include "heartbeat.h"
-#include "log.h"
+#include "wifi/wifi.h"
+
 
 /* Estructuras ---------------------------------------------------------------*/
 struct pin_driver_t led;
@@ -39,7 +40,24 @@ struct pin_driver_t led;
  */
 static void heartbeat_loop  (void)
 {
+    Datos_eventos_SO_t eventos = 
+    {
+        .tipo_evento = TASK_GET_HTTP,
+        .Datos_SO.ID = 0x00,   
+    };
+    // http_send_data_t data = 
+    // {
+    //     .data = 5,
+    //     .http_method = GET,
+    //     .name_data = "sensores"
+    // };
+
+    // eventos.tipo_evento = TASK_GET_HTTP;
+    // memcpy (&eventos.Datos_SO, &data, sizeof(data));
+
     pin_toggle (&led);
+
+    Add_Evento (&eventos);
 }
 
 /* Funciones Públicas --------------------------------------------------------*/

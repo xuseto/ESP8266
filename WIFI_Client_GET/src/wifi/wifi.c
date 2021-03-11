@@ -23,6 +23,10 @@
 
 
 #include "wifi/wifi.h"
+#include "log.h"
+
+
+#define     strlen_EndOfLine    2
 
 /* Estructuras ---------------------------------------------------------------*/
 
@@ -41,67 +45,58 @@ config_wifi_t wifi;
 
 /* Variables -----------------------------------------------------------------*/
 char http_request[200];
-char http_post[] =
+const char http_post[] =
             "POST / HTTP/1.1\r\n" ;
-char http_get[] =
+const char http_get[] =
             "GET / HTTP/1.1\r\n" ;
-// char http_host[] =
-//             "Host: 192.168.1.200:3001\r\n" ;
-char http_type[] =
+const char http_host[] =
+            "Host: " ;
+const char http_type[] =
             "Content-Type: application/x-www-form-urlencoded\r\n" ;
-// char http_lenght[] =
-//             "Content-Length: 15\r\n";
-// char http_data[] =
-//             "Temperatura=116\r\n";
+const char http_lenght[] =
+            "Content-Length: ";
+
+
+const char fail[] = "ERROR al abrir el socket\r\n";
              
-char nextline [] =   "\r\n"; 
+const char nextline [] =   "\r\n"; 
 
 struct socket_t tcp;
 
 /* Decalraciones funciones privadas ------------------------------------------*/
+// static void        callback_send_data_http (void); //(Datos_SO_t *data);
+wifi_faults_t      send_data_socket        (http_send_data_t *http_data);
 
 /* Funciones privadas --------------------------------------------------------*/
+static void add_new_event ()
+{ 
+    static Datos_eventos_SO_t datos_evento;
 
-/* Funciones públicas --------------------------------------------------------*/
-/**
- * @brief  inicialización del cliente wifi
- */
-wifi_faults_t init_client_wifi ()
-{    
-    //  Iniciar modulos de Wifi y del socket
-    esp_wifi_module_init ();
-    socket_module_init ();
+    datos_evento.tipo_evento   = TASK_LOG;
+    datos_evento.Datos_SO.ID   = 0x00;
+    memcpy (&datos_evento.Datos_SO.ptr_data, &http_request, sizeof(datos_evento.Datos_SO.ptr_data));
+    
+    Add_Evento (&datos_evento);
 
-    // Configuracion e inicio del modulo WIFI
-    esp_wifi_set_op_mode(esp_wifi_op_mode_max_t);
+}
 
-    // Configuramos el IP u Puerto del servidor
-    // IP del servidor
-    inet_aton(STRINGIFY(REMOTE_HOST_IP),  &wifi.ip_server.ip);
-    wifi.ip_server.port = SOCKET_HOST;
-    // IP de la red WIFI
-    inet_aton(STRINGIFY(LOCAL_IP),   &wifi.ip_localhost.address);
-    inet_aton(STRINGIFY(GATEWAY_IP), &wifi.ip_localhost.gateway);
-    inet_aton(STRINGIFY(MASCARA_IP), &wifi.ip_localhost.netmask);
-    // Nombre de la red y contraseña de la red que se quiere conectar
-    wifi.ssid = (char *)REDWIFI;
-    wifi.pssw = (char *)PSSWWIFI;
 
-    // Configuracion de la red local wifi a la cual se va conectar
-    if (esp_wifi_station_init(&wifi.ssid[0],&wifi.pssw[0], NULL, &wifi.ip_localhost) != 0) 
-       return 1 ; 
+static void callback_send_data_http (Datos_SO_t *data)
+{
+    http_send_data_t new_data_http;
+    uint8_t nombre_dato[] = "sensor";
 
-    // Conectar el modulo WIFI del ESP8266
-    if (esp_wifi_station_connect () != 0)
-        return 1;        
-        
-    return 0;
+//    memcpy (&new_data_http, data, sizeof(new_data_http));
+   new_data_http.data = 0x05;
+   memcpy (&new_data_http.name_data, &nombre_dato, sizeof(nombre_dato));
+   new_data_http.http_method = GET;
+   
+    send_data_socket (&new_data_http); 
 }
 
 wifi_faults_t send_data_socket (http_send_data_t *http_data)
 {
-    uint16_t I, size_sprintf;
-    char http_Datos[30];
+    uint16_t I, size_sprintf,ptr;
     char http_TEMP[40];
     char ip[15];
 
@@ -119,56 +114,179 @@ wifi_faults_t send_data_socket (http_send_data_t *http_data)
     }
     
     //  Indicar la IP del servidor
-    inet_ntoa (&wifi.ip_server.ip, ip);
-    size_sprintf = sprintf(http_TEMP,"Host: %s:%d\r\n",ip,wifi.ip_server.port);
+    inet_ntoa (&wifi.ip_server.ip, &ip[0]);
+    memcpy (&http_TEMP, &http_host, sizeof(http_host));
+    size_sprintf = strlen(http_host);
+    memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
+    size_sprintf += strlen(ip);
+    http_TEMP[size_sprintf] = ':';
+    size_sprintf += 1;
+    memset (&ip, 0x00, sizeof(ip));
+    itoa (wifi.ip_server.port, ip);
+    memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
+    ptr = 0x00;
+    while ('\0' != ip[ptr])
+    {
+        size_sprintf ++;
+        ptr ++;
+    }
+    memcpy (&http_TEMP[size_sprintf], &nextline, sizeof(nextline));
+    size_sprintf += strlen(nextline); 
     memcpy (&http_request[I], &http_TEMP, size_sprintf);
-    I += size_sprintf+0;
+    I += size_sprintf;
 
     // Indicar el tipo de que contiene los datos
     memcpy (&http_request[I], &http_type, strlen(http_type));
     I += strlen(http_type)+0;
    
     //  Preparamos la cadena de caractes de los datoas a enviar
-    size_sprintf = sprintf(http_Datos,"%s=%d\r\n",http_data->name_data,http_data->data);
+    size_sprintf = 0x00; 
+    memcpy (&http_TEMP[size_sprintf], &http_data->name_data[0], sizeof(http_data->name_data));
+    ptr = 0x00;
+    while ('\0' != http_data->name_data[ptr])
+    {
+        size_sprintf ++;
+        ptr ++;
+    } 
+    http_TEMP[size_sprintf] = '=';
+    size_sprintf += 1;
+    itoa (http_data->data, ip);
+    memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
+    ptr = 0x00;
+    while ('\0' != ip[ptr])
+    {
+        size_sprintf ++;
+        ptr ++;
+    } 
+    memcpy (&http_TEMP[size_sprintf], &nextline, sizeof(nextline));
+    size_sprintf += strlen(nextline);
+    memcpy (&http_request[I], &http_TEMP, size_sprintf);
+    I += size_sprintf;
+
     // Indicar el tamaño de los datos
-    sprintf(http_TEMP,"Content-Length: %d\r\n",(size_sprintf));
-    memcpy (&http_request[I], &http_TEMP, strlen(http_TEMP));
-    I += strlen(http_TEMP)+0;
+    memcpy (&http_request[I], &http_lenght, sizeof(http_lenght));
+    I += strlen(http_lenght);
+    itoa ((size_sprintf-strlen_EndOfLine),ip);
+    memcpy (&http_request[I], &ip, sizeof(ip));
+    ptr = 0x00;
+    while ('\0' != ip[ptr])
+    {
+        I ++;
+        ptr ++;
+    } 
+    memcpy (&http_request[I], &nextline, sizeof(nextline));
+    I += strlen(nextline);
 
     // Separación de la cabecerda de los datos
-    memcpy (&http_request[I], &nextline, strlen(nextline));
-    I += strlen(nextline)+0;
+    memcpy (&http_request[I], &nextline, sizeof(nextline));
+    I += strlen(nextline);
 
-    // Encolar los datos a transmitir
-    memcpy (&http_request[I], &http_Datos, size_sprintf);
-    I += size_sprintf+0;
+    // if (I > sizeof(http_request))
+    //     return Size_Data;
 
-    if (I > sizeof(http_request))
-        return Size_Data;
-    //
     // Se envia por TCP los datos
-    //
-    if (socket_open_tcp(&tcp) != 0)  
-        return Abrir_Socket; 
+    
+    // socket_open_tcp(&tcp);
+    // socket_connect(&tcp, &wifi.ip_server);
+    socket_write(&tcp, &http_request,  I);
 
-    if (socket_connect(&tcp, &wifi.ip_server) != 0) 
-        return Conectar_Socket;  
+    //while (!socket_size(&tcp));
+    // socket_close(&tcp);
 
-    // Enviamos los datos por el socket
-    if (socket_write(&tcp, &http_request,  I) != I)
-        return Size_Enviar_Socket;
+
+    // if (socket_connect(&tcp, &wifi.ip_server) != 0) 
+    //     return Conectar_Socket;  
+
+    // // Enviamos los datos por el socket
+    // if (socket_write(&tcp, &http_request,  I) != I)
+    //     return Size_Enviar_Socket;
    
-    // Esperar recibir la respuesta del servidor
-    // WARNING: NO se trata la respuesta del servidor
+    // // Esperar recibir la respuesta del servidor
+    // // WARNING: NO se trata la respuesta del servidor
     while (!socket_size(&tcp));
 
-    // cerrar socket
-    if (socket_close(&tcp) != 0)  
-        return Cerrar_Socket;  
+    // // cerrar socket
+    // if (socket_close(&tcp) != 0)  
+    //     return Cerrar_Socket;  
 
-    // Todo OK
-    return SinErrores;
+    // // Todo OK
+    add_new_event ();
+     return SinErrores;
 }
+
+
+/* Funciones públicas --------------------------------------------------------*/
+/**
+ * @brief  inicialización del cliente wifi
+ */
+wifi_faults_t init_client_wifi ()
+{    
+    //  Iniciar modulos de Wifi y del socket
+    esp_wifi_module_init ();
+    socket_module_init ();
+
+    // Configuracion e inicio del modulo WIFI
+    esp_wifi_set_op_mode(esp_wifi_op_mode_max_t);
+
+    // Configuramos el IP u Puerto del servidor
+    // IP del servidor
+    if( inet_aton(STRINGIFY(REMOTE_HOST_IP),  &wifi.ip_server.ip) != 0) 
+    {
+        std_printf(FSTR("Bad ip address '%s'.\r\n"), STRINGIFY(REMOTE_HOST_IP));
+        return 1;
+    }
+    
+    wifi.ip_server.port = (uint16_t)SOCKET_HOST;
+    std_printf(FSTR("port '%d'.\r\n"), wifi.ip_server.port);
+
+    // IP de la red WIFI
+    if( inet_aton(STRINGIFY(LOCAL_IP),   &wifi.ip_localhost.address) != 0) 
+    {
+        std_printf(FSTR("Bad ip address '%s'.\r\n"), STRINGIFY(REMOTE_HOST_IP));
+        return 1;
+    }
+    if( inet_aton(STRINGIFY(GATEWAY_IP), &wifi.ip_localhost.gateway) != 0) 
+    {
+        std_printf(FSTR("Bad gateway '%s'.\r\n"), STRINGIFY(REMOTE_HOST_IP));
+        return 1;
+    }
+    if( inet_aton(STRINGIFY(MASCARA_IP), &wifi.ip_localhost.netmask) != 0) 
+    {
+        std_printf(FSTR("Bad ip mask '%s'.\r\n"), STRINGIFY(REMOTE_HOST_IP));
+        return 1;
+    }
+    // Nombre de la red y contraseña de la red que se quiere conectar
+    wifi.ssid = (char *)REDWIFI;
+    wifi.pssw = (char *)PSSWWIFI;
+
+    // Configuracion de la red local wifi a la cual se va conectar
+    // if (esp_wifi_station_init(wifi.ssid, wifi.pssw, NULL, &wifi.ip_localhost) != 0) 
+    // {
+    //     std_printf (FSTR("Error red local \r\n"));
+    //     std_printf (FSTR("SSID: %s \r\n"),wifi.ssid);
+    //     std_printf (FSTR("PPSW: %s \r\n"),wifi.pssw);
+    //     return 1 ; 
+    // }
+       
+    esp_wifi_station_init(wifi.ssid, wifi.pssw, NULL, &wifi.ip_localhost);
+    esp_wifi_station_connect ();
+
+    socket_open_tcp(&tcp);
+    socket_connect(&tcp, &wifi.ip_server);
+
+    // Conectar el modulo WIFI del ESP8266
+    // if (esp_wifi_station_connect () != 0)
+    // {
+    //     std_printf (FSTR("Conectar el modulo WIFI del ESP8266 \r\n"));
+    //     return 1 ; 
+    // }
+
+    // Registramos la tarea para enviar los datos HTTP
+    Add_Tarea_Asincrona (callback_send_data_http, (ID_tareas_SO_e)TASK_GET_HTTP);    
+        
+    return 0;
+}
+
 
 /**
  *  @}

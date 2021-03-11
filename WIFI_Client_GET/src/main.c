@@ -52,8 +52,10 @@ int main()
     if (init_client_wifi())
     {
         std_printf (FSTR("Error al conectar a la red wifi \r\n"));
+        while (1);
     }
     
+    std_printf (FSTR("Configuracion Correcta \r\n"));
     while (1) 
     {
         Run_Tareas ();

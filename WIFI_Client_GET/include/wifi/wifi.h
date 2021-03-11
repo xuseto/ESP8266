@@ -26,7 +26,7 @@
 
 /* Define --------------------------------------------------------------------*/
 #define REMOTE_HOST_IP 192.168.1.107
-#define SOCKET_HOST    8086
+#define SOCKET_HOST    3000 //8086
 
 #define LOCAL_IP       192.168.1.199
 #define GATEWAY_IP     192.168.1.1
@@ -82,14 +82,13 @@ typedef enum
  */
 typedef struct  
 {
-    char               *name_data;
+    uint8_t            name_data[10];
     int32_t            data;
     http_method_t      http_method;
 } http_send_data_t;
 
 /* SFM functions -------------------------------------------------------------*/
-wifi_faults_t    init_client_wifi     (void);
-wifi_faults_t    send_data_socket     (http_send_data_t *http_data);
+wifi_faults_t    init_client_wifi        (void);
 
 #endif
 

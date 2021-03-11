@@ -29,16 +29,16 @@
 #define SO_TIMER_0    0
 #define SO_TIMER_1    1
 #define SO_TIMER_2    2
-#define MAX_LEN_DATA  15
+#define MAX_LEN_DATA  200 //50
 
 
 /* Estrucutas ----------------------------------------------------------------*//** @brief Enum de los eventos disponibles. Modificar al añadir un módulo 
  * nuevo.
  */
 typedef enum {
-    Tarea_Log,
-    Tarea_Tarea1,
-    NUM_TAREAS_ASINCRONAS,
+    TASK_LOG,
+    TASK_GET_HTTP,
+    NUM_TASK_ASINCRONAS,
 } ID_tareas_SO_e;
 
 /** @brief Estructura de datos para la funcion de destino, seleccionado del
