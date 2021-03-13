@@ -55,7 +55,7 @@ int main()
         while (1);
     }
     
-    std_printf (FSTR("Configuracion Correcta \r\n"));
+    std_printf (FSTR("Configuracion ESP32 finalizada \r\n"));
     while (1) 
     {
         Run_Tareas ();
