@@ -1,16 +1,16 @@
 /*******************************************************************************
- * @file main.c
+ * @file heartbeat.c
  * @author Jesus Nieto
  * @version 0.1.0
  * @date Creation: 01/02/2021
- * @date Last modification 07/03/2021 by Jesus Nieto 
+ * @date Last modification 01/02/2021 by Jesus Nieto 
  * @brief
  * @par
  *  COPYRIGHT NOTICE: (c) 2021 Jesus Nieto.
  *  All rights reserved
  *******************************************************************************
  *
- *  @addtogroup MAIN
+ *  @addtogroup HEARTBEAT
  *  @{
  *
  */
@@ -18,51 +18,42 @@
 /* Includes ------------------------------------------------------------------*/
 #include "simba.h"
 #include "config.h"
+#include "stdint.h"
 #include "SO_uC.h"
-
-#include <stdlib.h>
 #include <stdio.h>
-#include <stdint.h>
+
 
 #include "heartbeat.h"
 #include "log.h"
-#include "wifi/wifi.h"
 
 /* Estructuras ---------------------------------------------------------------*/
+struct pin_driver_t led;
 
 /* Variables -----------------------------------------------------------------*/
 
 /* Decalraciones funciones privadas ------------------------------------------*/
 
 /* Funciones privadas --------------------------------------------------------*/
-
-/* Funciones públicas --------------------------------------------------------*/
 /**
- * @brief  Main. inicio del código
- * @return int
+ * @brief Funcion sincrona, llamada por el SO cada sg.
  */
-int main()
+static void heartbeat_loop  (void)
 {
-
-    sys_start();
-    Ini_Tareas ();
-
-    heartbeat_init ();
-    log_init ();
-    if (init_client_wifi())
-    {
-        std_printf (FSTR("Error al conectar a la red wifi \r\n"));
-        while (1);
-    }
-    
-    std_printf (FSTR("Configuracion ESP32 finalizada \r\n"));
-    while (1) 
-    {
-        Run_Tareas ();
-    }
-    
-    return (0);
+    pin_toggle (&led);
 }
+
+/* Funciones Públicas --------------------------------------------------------*/
+/**
+ * @brief inicialización del LED de vida.
+ */
+void heartbeat_init ()
+{
+    pin_init(&led, &pin_led_dev, PIN_OUTPUT);
+    pin_write(&led, 1);
+
+    Add_Tarea_Sincrona (heartbeat_loop, SO_TIMER_0);
+}
+
 
 /**
  *  @}

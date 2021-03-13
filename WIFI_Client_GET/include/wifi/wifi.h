@@ -26,7 +26,7 @@
 
 /* Define --------------------------------------------------------------------*/
 #define REMOTE_HOST_IP 192.168.1.107
-#define SOCKET_HOST    3000 //8086
+#define SOCKET_HOST    1337
 
 #define LOCAL_IP       192.168.1.199
 #define GATEWAY_IP     192.168.1.1

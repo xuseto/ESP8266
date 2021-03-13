@@ -3,7 +3,7 @@
  * @author Jesus Nieto
  * @version 0.1.0
  * @date Creation: 01/02/2021
- * @date Last modification 07/03/2021 by Jesus Nieto 
+ * @date Last modification 01/02/2021 by Jesus Nieto 
  * @brief
  * @par
  *  COPYRIGHT NOTICE: (c) 2021 Jesus Nieto.
@@ -20,13 +20,9 @@
 #include "config.h"
 #include "SO_uC.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
-
 #include "heartbeat.h"
 #include "log.h"
-#include "wifi/wifi.h"
+#include "sw_520d.h"
 
 /* Estructuras ---------------------------------------------------------------*/
 
@@ -49,13 +45,11 @@ int main()
 
     heartbeat_init ();
     log_init ();
-    if (init_client_wifi())
-    {
-        std_printf (FSTR("Error al conectar a la red wifi \r\n"));
-        while (1);
-    }
+    sw_520d_init();
+    sw_520d_config (&GPIO_D2);
+
     
-    std_printf (FSTR("Configuracion ESP32 finalizada \r\n"));
+    
     while (1) 
     {
         Run_Tareas ();
