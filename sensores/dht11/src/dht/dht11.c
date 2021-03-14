@@ -1,5 +1,5 @@
 /*******************************************************************************
- * @file main.c
+ * @file log.c
  * @author Jesus Nieto
  * @version 0.1.0
  * @date Creation: 01/02/2021
@@ -10,7 +10,7 @@
  *  All rights reserved
  *******************************************************************************
  *
- *  @addtogroup MAIN
+ *  @addtogroup LOG
  *  @{
  *
  */
@@ -18,13 +18,22 @@
 /* Includes ------------------------------------------------------------------*/
 #include "simba.h"
 #include "config.h"
+#include "string.h"
 #include "SO_uC.h"
 
-#include "heartbeat.h"
 #include "log.h"
+#include "dht/dht11_driver.h"
 #include "dht/dht11.h"
 
 /* Estructuras ---------------------------------------------------------------*/
+typedef struct sdht11
+{
+    struct dht_driver_t driver;
+    float               temperature;
+    float               humidty;
+}dht11_t;
+
+dht11_t dht11;
 
 /* Variables -----------------------------------------------------------------*/
 
@@ -32,28 +41,17 @@
 
 /* Funciones privadas --------------------------------------------------------*/
 
+
 /* Funciones públicas --------------------------------------------------------*/
 /**
- * @brief  Main. inicio del código
- * @return int
+ * @brief Iniciar el sensor DHT11
  */
-int main()
+void dht11_init ()
 {
-
-    sys_start();
-    Ini_Tareas ();
-
-    heartbeat_init ();
-    log_init ();
-    dht11_init ();
- 
-    
-    while (1) 
-    {
-        Run_Tareas ();
-    }
-    
-    return (0);
+   if (dht_module_init())
+   {
+       std_printf ("Error DHT11 \r\n");
+   }
 }
 
 /**
@@ -61,3 +59,4 @@ int main()
  */
 
 /****************(C) COPYRIGHT Jesus Nieto*****END OF FILE ********************/
+

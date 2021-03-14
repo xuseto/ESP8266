@@ -26,14 +26,14 @@
 
 /* Define --------------------------------------------------------------------*/
 #define REMOTE_HOST_IP 192.168.1.107
-#define SOCKET_HOST    1337
+#define SOCKET_HOST    3333   //1337
 
 #define LOCAL_IP       192.168.1.199
 #define GATEWAY_IP     192.168.1.1
 #define MASCARA_IP     255.255.255.0
 
-#define REDWIFI        "YOUR_WIFI"
-#define PSSWWIFI       "YOUR_PASSWORD"
+#define REDWIFI        "MIWIFI_2G_eS9k"
+#define PSSWWIFI       "UeS9kC9N"
 
 /* Estructuras ----------------------------------------------------------------*/
 /**
@@ -72,8 +72,9 @@ typedef enum
  */
 typedef enum 
  {
-     POST,
      GET,
+     POST,
+     PUT,
      MAX_METHOD
  } http_method_t;
 

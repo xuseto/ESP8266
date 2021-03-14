@@ -44,11 +44,14 @@ typedef struct  sconfig_wifi
 config_wifi_t wifi;
 
 /* Variables -----------------------------------------------------------------*/
-char http_request[200];
+char http_request[] = "POST / HTTP/1.1\r\nHost: 192.168.1.107:3333\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 8\r\n\r\nsensor=5\r\n";
+
 const char http_post[] =
             "POST / HTTP/1.1\r\n" ;
 const char http_get[] =
             "GET / HTTP/1.1\r\n" ;
+const char http_put[] =
+            "PUT / HTTP/1.1\r\n" ;
 const char http_host[] =
             "Host: " ;
 const char http_type[] =
@@ -59,7 +62,7 @@ const char http_lenght[] =
 
 const char fail[] = "ERROR al abrir el socket\r\n";
 
-const char http_url[] = "/echo";
+const char http_url[] = "/";
              
 const char nextline [] =   "\r\n"; 
 
@@ -103,97 +106,110 @@ wifi_faults_t send_data_socket (http_send_data_t *http_data)
     char ip[15];
 
     // Inidicar que se va a realizar una petición POST
-    I = 0;
-    if (POST == http_data->http_method)
-    {
-        memcpy (&http_request[I], &http_post, strlen(http_post));
-        I += strlen(http_post)+0;
-    }
-    else
-    {
-        memcpy (&http_request[I], &http_get, strlen(http_get));
-        I += strlen(http_get)+0;
-    }
+    // I = 0;
+    // if (POST == http_data->http_method)
+    // {
+    //     memcpy (&http_request[I], &http_post, strlen(http_post));
+    //     I += strlen(http_post)+0;
+    // }
+    // else
+    // if (PUT == http_data->http_method)
+    // {
+    //     memcpy (&http_request[I], &http_put, strlen(http_put));
+    //     I += strlen(http_put)+0;
+    // } 
+    // else
+    // {
+    //     memcpy (&http_request[I], &http_get, strlen(http_get));
+    //     I += strlen(http_get)+0;
+    // }
     
-    //  Indicar la IP del servidor
-    inet_ntoa (&wifi.ip_server.ip, &ip[0]);
-    memcpy (&http_TEMP, &http_host, sizeof(http_host));
-    size_sprintf = strlen(http_host);
-    memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
-    size_sprintf += strlen(ip);
-    http_TEMP[size_sprintf] = ':';
-    size_sprintf += 1;
-    memset (&ip, 0x00, sizeof(ip));
-    itoa (wifi.ip_server.port, ip);
-    memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
-    ptr = 0x00;
-    while ('\0' != ip[ptr])
-    {
-        size_sprintf ++;
-        ptr ++;
-    }
-    memcpy (&http_TEMP[size_sprintf], &http_url, sizeof(http_url));
-    size_sprintf += strlen(http_url); 
-    memcpy (&http_TEMP[size_sprintf], &nextline, sizeof(nextline));
-    size_sprintf += strlen(nextline); 
-    memcpy (&http_request[I], &http_TEMP, size_sprintf);
-    I += size_sprintf;
+    // //  Indicar la IP del servidor
+    // inet_ntoa (&wifi.ip_server.ip, &ip[0]);
+    // memcpy (&http_TEMP, &http_host, sizeof(http_host));
+    // size_sprintf = strlen(http_host);
+    // memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
+    // size_sprintf += strlen(ip);
+    // http_TEMP[size_sprintf] = ':';
+    // size_sprintf += 1;
+    // memset (&ip, 0x00, sizeof(ip));
+    // itoa (wifi.ip_server.port, ip);
+    // memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
+    // ptr = 0x00;
+    // while ('\0' != ip[ptr])
+    // {
+    //     size_sprintf ++;
+    //     ptr ++;
+    // }
+    // // memcpy (&http_TEMP[size_sprintf], &http_url, sizeof(http_url));
+    // // size_sprintf += strlen(http_url); 
+    // memcpy (&http_TEMP[size_sprintf], &nextline, sizeof(nextline));
+    // size_sprintf += strlen(nextline); 
+    // memcpy (&http_request[I], &http_TEMP, size_sprintf);
+    // I += size_sprintf;
 
-    // Indicar el tipo de que contiene los datos
-    memcpy (&http_request[I], &http_type, strlen(http_type));
-    I += strlen(http_type)+0;
+    // // Indicar el tipo de que contiene los datos
+    // memcpy (&http_request[I], &http_type, strlen(http_type));
+    // I += strlen(http_type)+0;
    
-    //  Preparamos la cadena de caractes de los datoas a enviar
-    size_sprintf = 0x00; 
-    memcpy (&http_TEMP[size_sprintf], &http_data->name_data[0], sizeof(http_data->name_data));
-    ptr = 0x00;
-    while ('\0' != http_data->name_data[ptr])
-    {
-        size_sprintf ++;
-        ptr ++;
-    } 
-    http_TEMP[size_sprintf] = '=';
-    size_sprintf += 1;
-    itoa (http_data->data, ip);
-    memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
-    ptr = 0x00;
-    while ('\0' != ip[ptr])
-    {
-        size_sprintf ++;
-        ptr ++;
-    } 
-    memcpy (&http_TEMP[size_sprintf], &nextline, sizeof(nextline));
-    size_sprintf += strlen(nextline);
-    memcpy (&http_request[I], &http_TEMP, size_sprintf);
-    I += size_sprintf;
+    // // Indicar el tamaño de los datos
+    // memcpy (&http_request[I], &http_lenght, sizeof(http_lenght));
+    // I += strlen(http_lenght);
+    // size_sprintf = 12;
+    // //itoa ((size_sprintf-strlen_EndOfLine),ip);
+    // itoa ((size_sprintf),ip);
+    // memcpy (&http_request[I], &ip, sizeof(ip));
+    // ptr = 0x00;
+    // while ('\0' != ip[ptr])
+    // {
+    //     I ++;
+    //     ptr ++;
+    // } 
+    // memcpy (&http_request[I], &nextline, sizeof(nextline));
+    // I += strlen(nextline);
+   
+    // memcpy (&http_request[I], &nextline, sizeof(nextline));
+    // I += strlen(nextline);
 
-    // Indicar el tamaño de los datos
-    memcpy (&http_request[I], &http_lenght, sizeof(http_lenght));
-    I += strlen(http_lenght);
-    itoa ((size_sprintf-strlen_EndOfLine),ip);
-    memcpy (&http_request[I], &ip, sizeof(ip));
-    ptr = 0x00;
-    while ('\0' != ip[ptr])
-    {
-        I ++;
-        ptr ++;
-    } 
-    memcpy (&http_request[I], &nextline, sizeof(nextline));
-    I += strlen(nextline);
 
-    // Separación de la cabecerda de los datos
-    memcpy (&http_request[I], &nextline, sizeof(nextline));
-    I += strlen(nextline);
+    // //  Preparamos la cadena de caractes de los datoas a enviar
+    // size_sprintf = 0x00; 
+    // memcpy (&http_TEMP[size_sprintf], &http_data->name_data[0], sizeof(http_data->name_data));
+    // ptr = 0x00;
+    // while ('\0' != http_data->name_data[ptr])
+    // {
+    //     size_sprintf ++;
+    //     ptr ++;
+    // } 
+    // http_TEMP[size_sprintf] = '=';
+    // size_sprintf += 1;
+    // itoa (http_data->data, ip);
+    // memcpy (&http_TEMP[size_sprintf], &ip, sizeof(ip));
+    // ptr = 0x00;
+    // while ('\0' != ip[ptr])
+    // {
+    //     size_sprintf ++;
+    //     ptr ++;
+    // } 
+    // memcpy (&http_TEMP[size_sprintf], &nextline, sizeof(nextline));
+    // size_sprintf += strlen(nextline);
+    // memcpy (&http_request[I], &http_TEMP, size_sprintf);
+    // I += size_sprintf;
 
-    // if (I > sizeof(http_request))
-    //     return Size_Data;
-
-    // Se envia por TCP los datos
     
+
+    // // Separación de la cabecerda de los datos
+    // memcpy (&http_request[I], &nextline, sizeof(nextline));
+    // I += strlen(nextline);
+    // // memcpy (&http_request[I], &nextline, sizeof(nextline));
+    // // I += strlen(nextline);
+
+
+    // Se envia por TCP los datos 
     socket_open_tcp(&tcp);
     socket_connect(&tcp, &wifi.ip_server);
 
-    socket_write(&tcp, &http_request,  I);
+    socket_write(&tcp, &http_request,  sizeof(http_request));
 
     //while (!socket_size(&tcp));
     socket_close(&tcp);
@@ -264,7 +280,7 @@ wifi_faults_t init_client_wifi ()
     wifi.pssw = (char *)PSSWWIFI;
 
     // Configuracion de la red local wifi a la cual se va conectar
-    if (esp_wifi_station_init(wifi.ssid, wifi.pssw, NULL, &wifi.ip_localhost) != 0) 
+    if (esp_wifi_station_init(wifi.ssid, wifi.pssw, NULL, NULL) != 0) 
     {
         std_printf (FSTR("Error red local \r\n"));
         std_printf (FSTR("SSID: %s \r\n"),wifi.ssid);
@@ -280,7 +296,7 @@ wifi_faults_t init_client_wifi ()
     }
 
     // Registramos la tarea para enviar los datos HTTP
-    Add_Tarea_Asincrona (callback_send_data_http, (ID_tareas_SO_e)TASK_GET_HTTP);    
+    Add_Tarea_Asincrona (callback_send_data_http, (ID_tareas_SO_e)TASK_HTTP);  
         
     return 0;
 }

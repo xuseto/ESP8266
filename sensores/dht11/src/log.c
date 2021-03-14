@@ -43,10 +43,6 @@ static void log_print (Datos_SO_t *log_data)
     case ID_log_heartbeat:
         std_printf(FSTR("[HEARTBEAT  ]"));
         break;
-
-    case ID_SW_520D:
-        std_printf(FSTR("[SW_520D    ]"));
-        break;
     
     default:
         std_printf(FSTR("[LOG        ]"));

@@ -65,5 +65,9 @@
 #define CONFIG_FS_CMD_PIN_READ      0
 #define CONFIG_RANDOM               0
 
+// Libreria DHT11
+#define CONFIG_DHT_COMMAND_READ     0
+#define CONFIG_DHT                  1
+#define CONFIG_DHT_DEBUG_LOG_MASK   -1
 
 #endif

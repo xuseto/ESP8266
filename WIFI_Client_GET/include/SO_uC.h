@@ -37,7 +37,7 @@
  */
 typedef enum {
     TASK_LOG,
-    TASK_GET_HTTP,
+    TASK_HTTP,
     NUM_TASK_ASINCRONAS,
 } ID_tareas_SO_e;
 
