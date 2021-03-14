@@ -15,6 +15,6 @@
     "net": "^1.0.2",
     "onoff": "^5.0.1",
     "serialport": "^7.1.5",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.4.0"
   }
 }
