@@ -40,20 +40,21 @@ struct pin_driver_t led;
  */
 static void heartbeat_loop  (void)
 {
+
     Datos_eventos_SO_t eventos = 
     {
-        .tipo_evento = TASK_GET_HTTP,
-        .Datos_SO.ID = 0x00,   
+        .tipo_evento = TASK_HTTP,
+        .Datos_SO.ID = POST  
     };
-    // http_send_data_t data = 
-    // {
-    //     .data = 5,
-    //     .http_method = GET,
-    //     .name_data = "sensores"
-    // };
-
-    // eventos.tipo_evento = TASK_GET_HTTP;
-    // memcpy (&eventos.Datos_SO, &data, sizeof(data));
+    http_send_data_t data = 
+    {
+        .data = 0,
+        .name_data = "sensores"
+    };
+    
+    data.data = rand() % 100 + 10;
+    eventos.tipo_evento = TASK_HTTP;
+    memcpy (&eventos.Datos_SO.ptr_data, &data, sizeof(data));
 
     pin_toggle (&led);
 

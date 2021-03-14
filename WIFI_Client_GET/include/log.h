@@ -10,8 +10,8 @@
  */
 typedef enum
 {
-    ID_log_heartbeat,
-    ID_log_wifi,
+    ID_LOG_HEARTBEAT,
+    ID_LOG_WIFI,
 
     ID_log_Max
 } ID_log_e;

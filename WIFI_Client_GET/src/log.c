@@ -40,13 +40,12 @@ static void log_print (Datos_SO_t *log_data)
     std_printf(FSTR("***************************************************\r\n"));
     switch ((ID_log_e)log_data->ID)
     {
-    case ID_log_heartbeat:
+    case ID_LOG_HEARTBEAT:
         std_printf(FSTR("[HEARTBEAT  ]"));
         break;
-    case ID_log_wifi:
+    case ID_LOG_WIFI:
         std_printf(FSTR("[WIFI       ]"));
         break;
-    
     default:
         std_printf(FSTR("[LOG        ]"));
         break;

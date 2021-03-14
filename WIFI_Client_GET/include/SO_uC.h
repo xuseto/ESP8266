@@ -29,7 +29,7 @@
 #define SO_TIMER_0    0
 #define SO_TIMER_1    1
 #define SO_TIMER_2    2
-#define MAX_LEN_DATA  200 //50
+#define MAX_LEN_DATA  50
 
 
 /* Estrucutas ----------------------------------------------------------------*//** @brief Enum de los eventos disponibles. Modificar al añadir un módulo 

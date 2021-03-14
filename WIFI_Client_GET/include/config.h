@@ -61,6 +61,6 @@
 #define CONFIG_FS_CMD_PIN_WRITE     0
 #define CONFIG_FS_CMD_PIN_READ      0
 #define CONFIG_RANDOM               0
-
+#define CONFIG_FLASH                1
 
 #endif

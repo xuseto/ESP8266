@@ -23,50 +23,11 @@
 #define WIFI_H
 
 #include "stdint.h"
+#include "simba.h"
 
 /* Define --------------------------------------------------------------------*/
-#define REMOTE_HOST_IP 192.168.1.107
-#define SOCKET_HOST    3333   //1337
-
-#define LOCAL_IP       192.168.1.199
-#define GATEWAY_IP     192.168.1.1
-#define MASCARA_IP     255.255.255.0
-
-#define REDWIFI        "MIWIFI_2G_eS9k"
-#define PSSWWIFI       "UeS9kC9N"
 
 /* Estructuras ----------------------------------------------------------------*/
-/**
-*******************************************************************************
-\struct         eErroresWifi
-\brief          Enum con los diferentes errores en el modulo WIFI
-******************************************************************************/
-typedef enum  
-{
-    /** devuelve un 0 si ha ido todo bien   */
-    SinErrores = 0,
-    /** Error producido al configurar la Red Local WIFI */
-    Configuracion_RedWifi,
-    /** Error al intentar conectar el modulo de WIFI */
-    Conexion_ModuloWifi,
-    /** Error al intentar enviar datos mayor que esta permitido
-     *  Para arreglar este error, modificar el numero de char del arrya 
-     * "http_request" o cambiar el nombre del parametro por uno más corto
-    */
-    Size_Data,
-    /** Error al intentar abrir el Socket del servidor*/
-    Abrir_Socket,
-    /** Error al intentar conectar con el Socket del servidor*/
-    Conectar_Socket,
-    /** Error al enviar el numero de char por el Socket*/
-    Size_Enviar_Socket,
-    /** Sin respuesta del servidor  */
-    SinRespuesta_Socket,
-    /** Error al intentar cerrar el Socket del servidor*/
-    Cerrar_Socket,
-    
-} wifi_faults_t;
-
 /**
  * @brief Enumerado del metodo de envio de los datos
  */
@@ -84,12 +45,26 @@ typedef enum
 typedef struct  
 {
     uint8_t            name_data[10];
-    int32_t            data;
+    uint32_t           data;
     http_method_t      http_method;
 } http_send_data_t;
 
+/**
+ *  @brief Estructura para configuración del Wifi del ESP32
+ */
+typedef struct  sconfig_wifi
+{
+    struct inet_addr_t          ip_server;
+    struct inet_if_ip_info_t    ip_localhost; 
+    char                        *ssid;
+    char                        *pssw; 
+    char                        *name_server;   
+} wifi_config_t;
+
 /* SFM functions -------------------------------------------------------------*/
-wifi_faults_t    init_client_wifi        (void);
+void             wifi_init       (void);
+uint16_t         wifi_config     (const wifi_config_t *new_wifi);
+wifi_config_t*   get_struct_wifi (void);
 
 #endif
 

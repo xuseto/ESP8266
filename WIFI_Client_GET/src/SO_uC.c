@@ -318,14 +318,17 @@ void Run_Tareas()
     for (;;)
 	{
        event_read (&event_SO, &mask_event, sizeof(mask_event));
-  
-       //do {
+       if (ptr_eventos_leidos != ptr_eventos_recibidos)
+	   {
 	       tp = tareas_Asincronas.Cola_T [(Datos_eventos_SO[ptr_eventos_leidos].tipo_evento)];
 	       // Llamar a la COLA de TAREAS a Ejecutar...
 	       tp(&Datos_eventos_SO[ptr_eventos_leidos].Datos_SO); 
 
+		   	//Reset datos de las estructura
+	        memset (&Datos_eventos_SO[ptr_eventos_leidos], 0x00, sizeof (Datos_eventos_SO[ptr_eventos_leidos]));
+
 	       ptr_eventos_leidos = ((NUM_EVENTOS-1) <= ptr_eventos_leidos) ? 0x00 : ptr_eventos_leidos + 1;
-		//} while (ptr_eventos_leidos != ptr_eventos_recibidos);
+	   }
 	}
 }// FIN de Run_Tareas
 
@@ -341,8 +344,7 @@ void Add_Evento (Datos_eventos_SO_t *Datos_eventos)
 	//Añadimos los nuevos datos
 	memcpy (&Datos_eventos_SO[ptr_eventos_recibidos], Datos_eventos, sizeof (Datos_eventos_SO[ptr_eventos_recibidos]));
 
-	ptr_eventos_recibidos = ((NUM_EVENTOS-1) <= ptr_eventos_recibidos) ? 
-	0x00 : ptr_eventos_recibidos + 1;
+	ptr_eventos_recibidos = ((NUM_EVENTOS-1) <= ptr_eventos_recibidos) ? 0x00 : ptr_eventos_recibidos + 1;
 
     event_write_isr (&event_SO, &mask_event, sizeof(mask_event));
 }
