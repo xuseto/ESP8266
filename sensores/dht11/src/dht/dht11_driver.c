@@ -1,4 +1,3 @@
-
 /*
  * The MIT License (MIT)
  *
@@ -28,8 +27,6 @@
  */
 
 #include "simba.h"
-#include "time.h"
-#include "dht/dht11_driver.h"
 
 #if CONFIG_DHT == 1
 
@@ -50,17 +47,12 @@
 #define TEMP_LSB_INDEX                              3
 #define PARITY_INDEX                                4
 
-#define UPDATE_TICK()                               time_get(&module.tick)
-#define TIME_MICROS()                               ((float)module.tick.nanoseconds * 0.001)
-#define TIME_MICROS_ELAPSED(timer1,timer2)          (timer2 - timer1)
-
 struct module_t {
     int8_t initialized;
 #if CONFIG_DHT_COMMAND_READ == 1
     struct fs_command_t cmd_read;
     struct fs_command_t cmd_read_11;
 #endif
-   struct time_t tick; 
 };
 
 struct module_t module;
@@ -90,16 +82,15 @@ static int is_valid(uint8_t *buf_p)
 static int wait_for_edge(struct dht_driver_t *self_p,
                          int target_level)
 {
-    uint16_t start;
-    uint16_t stop;
-    uint16_t elapsed;
+    int start;
+    int stop;
+    int elapsed;
 
-    UPDATE_TICK() ;
-    start = TIME_MICROS();
+    start = time_micros();
 
     while (1) {
-        stop = TIME_MICROS();
-        elapsed = TIME_MICROS_ELAPSED(start, stop);
+        stop = time_micros();
+        elapsed = time_micros_elapsed(start, stop);
 
         if (pin_device_read(self_p->pin_p) == target_level) {
             break;
@@ -282,7 +273,7 @@ int dht_module_init()
 
     module.initialized = 1;
 
-    FATAL_ASSERT(TIME_MICROS_maximum() > TIMEOUT_US);
+    FATAL_ASSERT(time_micros_maximum() > TIMEOUT_US);
 
 #if CONFIG_DHT_COMMAND_READ == 1
     fs_command_init(&module.cmd_read,
@@ -297,8 +288,6 @@ int dht_module_init()
                     NULL);
     fs_command_register(&module.cmd_read_11);
 #endif
-
-    time_set(&module.tick);
 
     return (pin_module_init());
 }
