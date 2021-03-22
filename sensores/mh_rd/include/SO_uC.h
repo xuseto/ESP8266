@@ -36,8 +36,7 @@
  * nuevo.
  */
 typedef enum {
-    TASK_LOG,
-    TASK_DHT11,
+    LOG_TASK,
     NUM_TAREAS_ASINCRONAS,
 } ID_tareas_SO_e;
 

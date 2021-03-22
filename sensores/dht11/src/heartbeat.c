@@ -25,6 +25,7 @@
 
 #include "heartbeat.h"
 #include "log.h"
+#include "dht/dht11.h"
 
 /* Estructuras ---------------------------------------------------------------*/
 struct pin_driver_t led;

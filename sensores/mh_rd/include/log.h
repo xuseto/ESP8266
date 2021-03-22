@@ -1,16 +1,23 @@
 
-#ifndef _DHT11_H
-#define _DHT11_H
+#ifndef LOG_H
+#define LOG_H
 
 /* Includes ------------------------------------------------------------------*/
 
-/* Defines -------------------------------------------------------------------*/
-
 /* Estructuras ---------------------------------------------------------------*/
+/** @brief Enum para gestionar los nombres que hay entre [], para identificar  
+ * quien a generenad el log.
+ */
+typedef enum
+{
+    ID_MH_RD,
+
+    ID_log_Max
+} ID_log_e;
 
 /* SFM functions -------------------------------------------------------------*/
-void dht11_init    (void);
-void dht11_config  (struct pin_device_t gpio);
+void log_init (void);
+char* itoa(int i, char b[]);
 
 #endif
 

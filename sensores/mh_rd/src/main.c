@@ -22,7 +22,7 @@
 
 #include "heartbeat.h"
 #include "log.h"
-#include "dht/dht11.h"
+#include "mh_rd.h"
 
 /* Estructuras ---------------------------------------------------------------*/
 
@@ -45,9 +45,8 @@ int main()
 
     heartbeat_init ();
     log_init ();
-    dht11_init ();
-    dht11_config (GPIO_D4);
- 
+    mh_rd_init ();
+
     
     while (1) 
     {

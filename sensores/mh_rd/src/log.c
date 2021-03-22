@@ -40,15 +40,15 @@ static void log_print (Datos_SO_t *log_data)
     std_printf(FSTR("***************************************************\r\n"));
     switch ((ID_log_e)log_data->ID)
     {
-    case ID_DHT11:
-        std_printf(FSTR("[DHT11      ]"));
+    case ID_MH_RD:
+        std_printf(FSTR("[MH RD      ]"));
         break;
     
     default:
         std_printf(FSTR("[LOG        ]"));
         break;
     }
-        
+    
     std_printf(FSTR(" %s\r\n"),log_data->ptr_data);
 
     std_printf(FSTR("\r\n"));
@@ -60,7 +60,7 @@ static void log_print (Datos_SO_t *log_data)
  */
 void log_init ()
 {
-    Add_Tarea_Asincrona (log_print, (ID_tareas_SO_e)TASK_LOG);
+    Add_Tarea_Asincrona (log_print, (ID_tareas_SO_e)LOG_TASK);
 }
 
 /**

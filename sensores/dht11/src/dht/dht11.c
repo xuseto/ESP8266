@@ -38,9 +38,27 @@ dht11_t dht11;
 /* Variables -----------------------------------------------------------------*/
 
 /* Decalraciones funciones privadas ------------------------------------------*/
+static void dht11_task (void);
 
 /* Funciones privadas --------------------------------------------------------*/
+static void dht11_task (void)
+{
+    Datos_eventos_SO_t new_event;
+    uint16_t value;
 
+    value =  dht_read (&dht11.driver, &dht11.temperature, &dht11.humidty);
+
+    new_event.tipo_evento = TASK_LOG;
+    new_event.Datos_SO.ID = (ID_log_e)ID_DHT11;
+    itoa (value, (char *)new_event.Datos_SO.ptr_data);
+
+    Add_Evento (&new_event);
+
+    
+
+    //std_printf ("Temperatura : %ld, Humedad: %ld \r\n",dht11.temperature, dht11.humidty);
+    //std_printf ("Temperatura, Humedad:  \r\n");
+}
 
 /* Funciones públicas --------------------------------------------------------*/
 /**
@@ -52,7 +70,18 @@ void dht11_init ()
    {
        std_printf ("Error DHT11 \r\n");
    }
+   else
+   {
+       Add_Tarea_Sincrona (dht11_task, SO_TIMER_1);
+   }
+
 }
+
+void dht11_config (struct pin_device_t gpio)
+{
+    dht_init(&dht11.driver, &gpio);
+}
+
 
 /**
  *  @}
