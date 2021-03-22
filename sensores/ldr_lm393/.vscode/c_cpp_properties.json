@@ -1,0 +1,89 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "/home/xuseto/git/ESP8266/sensores/ldr_lm393/include",
+                "/home/xuseto/git/ESP8266/sensores/ldr_lm393/src",
+                "/home/xuseto/.platformio/packages/framework-simba/build/esp12e/gen",
+                "/home/xuseto/.platformio/packages/framework-simba/src",
+                "/home/xuseto/.platformio/packages/framework-simba/src/boards/esp12e",
+                "/home/xuseto/.platformio/packages/framework-simba/src/mcus/esp8266",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/extra_include",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/espressif",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/espressif/esp8266",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/lwip",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/lwip/ipv4",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/lwip/ipv6",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/compat",
+                "/home/xuseto/.platformio/packages/framework-simba/src/drivers/ports/esp",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/mbedtls/include",
+                "/home/xuseto/.platformio/packages/framework-simba/src/kernel/ports/esp/gnu",
+                "/home/xuseto/.platformio/packages/framework-simba/src/oam/ports/esp",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/spiffs-0.3.5/src",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/atto",
+                "/home/xuseto/.platformio/packages/framework-simba/3pp/atto/curses",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/xuseto/git/ESP8266/sensores/ldr_lm393/include",
+                    "/home/xuseto/git/ESP8266/sensores/ldr_lm393/src",
+                    "/home/xuseto/.platformio/packages/framework-simba/build/esp12e/gen",
+                    "/home/xuseto/.platformio/packages/framework-simba/src",
+                    "/home/xuseto/.platformio/packages/framework-simba/src/boards/esp12e",
+                    "/home/xuseto/.platformio/packages/framework-simba/src/mcus/esp8266",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/extra_include",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/espressif",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/espressif/esp8266",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/lwip",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/lwip/ipv4",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/ESP8266_RTOS_SDK/include/lwip/ipv6",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/compat",
+                    "/home/xuseto/.platformio/packages/framework-simba/src/drivers/ports/esp",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/mbedtls/include",
+                    "/home/xuseto/.platformio/packages/framework-simba/src/kernel/ports/esp/gnu",
+                    "/home/xuseto/.platformio/packages/framework-simba/src/oam/ports/esp",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/spiffs-0.3.5/src",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/atto",
+                    "/home/xuseto/.platformio/packages/framework-simba/3pp/atto/curses",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=50101",
+                "ESP8266",
+                "ARDUINO_ARCH_ESP8266",
+                "ARDUINO_ESP8266_ESP12",
+                "F_CPU=160000000l",
+                "ARCH_ESP",
+                "FAMILY_ESP",
+                "MCU_ESP8266",
+                "BOARD_ESP12E",
+                "VERSION=15.0.3",
+                "MBEDTLS_USER_CONFIG_FILE=\"\"mbedtls/user_config.h\"\"",
+                "ICACHE_FLASH",
+                "__STRICT_ANSI__",
+                "__ets__",
+                ""
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++11",
+            "compilerPath": "/home/xuseto/.platformio/packages/toolchain-xtensa/bin/xtensa-lx106-elf-gcc",
+            "compilerArgs": [
+                "-mlongcalls",
+                "-mtext-section-literals",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
